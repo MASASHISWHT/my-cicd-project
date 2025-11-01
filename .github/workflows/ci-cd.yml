@@ -1,8 +1,37 @@
-{
-  "scripts": {
-    "lint": "eslint .",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "build": "your-build-command"
-  }
-}
+name: Node.js CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - name: チェックアウト
+      uses: actions/checkout@v4
+    
+    - name: Node.js setup
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: 依存関係のインストール
+      run: npm ci
+    
+    - name: リント実行
+      run: npm run lint
+    
+    - name: テスト実行
+      run: npm test
+    
+    - name: ビルド実行
+      run: npm run build
