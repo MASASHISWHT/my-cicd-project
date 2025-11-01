@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "build": "your-build-command"
+  }
+}
